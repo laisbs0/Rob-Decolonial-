@@ -120,16 +120,16 @@ def telegram_bot():
         # Define qual será a resposta e envia
         texto_resposta = " "
         print(message)
-    
-   if message == "/start":
-     texto_resposta = "Bem-vindo(a)! Aqui te ajudo a descobrir quais países foram e não foram invadidos pela Inglaterra. Qual você quer saber?"
 
-    elif message != " ":
-      encontrou = False
-      paises=df['localidade']
-     for pais in paises:
-       if pais == message: #permitir maiúsculas, minúsculas...
-         encontrou = True
+  if message == "/start":
+    texto_resposta = "Bem-vindo(a)! Aqui te ajudo a descobrir quais países foram e não foram invadidos pela Inglaterra. Qual você quer saber?"
+
+  elif message != " ":
+    encontrou = False
+    paises=df['localidade']
+    for pais in paises:
+      if pais == message: #permitir maiúsculas, minúsculas...
+        encontrou = True
     if encontrou:
       texto_resposta = "Este país nunca foi invadido pela Inglaterra."
     else: 
@@ -144,15 +144,3 @@ def telegram_bot():
 # Atualiza planilha do sheets com último update processado
 sheet.append_rows(mensagens)
 sheet.update("A1", update_id)
-
-
-   @app.route("/invasoes")
-def invasoes():
-  conteudo = menu + """
-  Encontrei as seguintes promoções no <a href="https://t.me/promocoeseachadinhos">@promocoeseachadinhos</a>:
-  <br>
-  <ul>
-  """
-  for promocao in ultimas_promocoes():
-    conteudo += f"<li>{promocao}</li>"
-  return conteudo + "</ul>"
