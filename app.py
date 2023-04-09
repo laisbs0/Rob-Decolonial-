@@ -1,13 +1,14 @@
-import os
-import requests
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from flask import Flask
 from tchan import ChannelScraper
 import os
 import requests
+import telegram
+import pandas as pd
 
-TELEGRAM_API_KEY = os.environ["TELEGRAM_API_KEY"]
+TELEGRAM_API_KEY = os.environ["TELEGRAM_API_KEY
+bot = telegram.Bot(token=os.environ["TELEGRAM_API_KEY"])
 TELEGRAM_ADMIN_ID = os.environ["TELEGRAM_ADMIN_ID"]
 GOOGLE_SHEETS_CREDENTIALS = os.environ["GOOGLE_SHEETS_CREDENTIALS"]
 with open("credenciais.json", mode="w") as arquivo:
@@ -44,6 +45,18 @@ def sobre():
 @app.route("/contato")
 def contato():
   return menu + "laisbatistasantana@gmail.com"
+                             
+@app.route("/dedoduro")
+def dedoduro():
+  mensagem = {"chat_id": TELEGRAM_ADMIN_ID, "text": "Alguém acessou a página dedo duro!"}
+  resposta = requests.post(f"https://api.telegram.org/bot{TELEGRAM_API_KEY}/sendMessage", data=mensagem)
+  return f"Mensagem enviada. Resposta ({resposta.status_code}): {resposta.text}"
+
+@app.route("/dedoduro2")
+def dedoduro2():
+  sheet.append_row(["olá", "tudo bem?", "a partir do Flask"])
+  return "Planilha escrita!"
+
 
 @app.route("/telegram-bot", methods=["POST"])
 def telegram_bot():
@@ -120,27 +133,25 @@ def telegram_bot():
         # Define qual será a resposta e envia
         texto_resposta = " "
         print(message)
-
-if message == "/start":
-  texto_resposta = "Bem-vindo(a)! Aqui te ajudo a descobrir quais países foram e não foram invadidos pela Inglaterra. Qual você quer saber?"
-
-elif message != " ":
-  encontrou = False
-  paises=df['localidade']
-  for pais in paises:
-    if pais == message: #permitir maiúsculas, minúsculas...
-      encontrou = True
+        
+    if message == "/start":
+      texto_resposta = "Bem-vindo(a)! Aqui te ajudo a descobrir quais países foram e não foram invadidos pela Inglaterra. Qual você quer saber?"
+    
+    elif message != " ":
+      encontrou = False
+    paises=df['localidade']
+    for pais in paises:
+      if pais == message:
+        encontrou = True
     if encontrou:
       texto_resposta = "Este país nunca foi invadido pela Inglaterra."
-    else:
+    else: 
       texto_resposta = "Este país já foi invadido pela Inglaterra."
+      
+    nova_mensagem = {"chat_id": chat_id, "text": texto_resposta}
+    requests.post(f"https://api.telegram.org./bot{token}/sendMessage", data=nova_mensagem)
+    mensagens.append([datahora, "enviada", username, first_name, chat_id, texto_resposta,])
 
-else:
-  texto_resposta ="Obrigada por ter utilizado este canal, até mais!"
-
-  nova_mensagem = {"chat_id": chat_id, "text": texto_resposta}
-  requests.post(f"https://api.telegram.org./bot{token}/sendMessage", data=nova_mensagem)
-  mensagens.append([datahora, "enviada", username, first_name, chat_id, texto_resposta,])
 # Atualiza planilha do sheets com último update processado
 sheet.append_rows(mensagens)
 sheet.update("A1", update_id)
