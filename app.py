@@ -132,8 +132,8 @@ elif message != " ":
       encontrou = True
     if encontrou:
       texto_resposta = "Este país nunca foi invadido pela Inglaterra."
-      else:
-        texto_resposta = "Este país já foi invadido pela Inglaterra."
+    else:
+      texto_resposta = "Este país já foi invadido pela Inglaterra."
 
 else:
   texto_resposta ="Obrigada por ter utilizado este canal, até mais!"
