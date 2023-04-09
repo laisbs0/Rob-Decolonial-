@@ -121,22 +121,22 @@ def telegram_bot():
         texto_resposta = " "
         print(message)
 
-  if message == "/start":
-    texto_resposta = "Bem-vindo(a)! Aqui te ajudo a descobrir quais países foram e não foram invadidos pela Inglaterra. Qual você quer saber?"
+if message == "/start":
+  texto_resposta = "Bem-vindo(a)! Aqui te ajudo a descobrir quais países foram e não foram invadidos pela Inglaterra. Qual você quer saber?"
 
-  elif message != " ":
-    encontrou = False
-    paises=df['localidade']
-    for pais in paises:
-      if pais == message: #permitir maiúsculas, minúsculas...
-        encontrou = True
+elif message != " ":
+  encontrou = False
+  paises=df['localidade']
+  for pais in paises:
+    if pais == message: #permitir maiúsculas, minúsculas...
+    encontrou = True
     if encontrou:
       texto_resposta = "Este país nunca foi invadido pela Inglaterra."
-    else: 
-      texto_resposta = "Este país já foi invadido pela Inglaterra."
+      else:
+        texto_resposta = "Este país já foi invadido pela Inglaterra."
 
-  else:
-    texto_resposta ="Obrigada por ter utilizado este canal, até mais!"
+else:
+  texto_resposta ="Obrigada por ter utilizado este canal, até mais!"
 
   nova_mensagem = {"chat_id": chat_id, "text": texto_resposta}
   requests.post(f"https://api.telegram.org./bot{token}/sendMessage", data=nova_mensagem)
