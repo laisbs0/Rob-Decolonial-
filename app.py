@@ -129,7 +129,7 @@ elif message != " ":
   paises=df['localidade']
   for pais in paises:
     if pais == message: #permitir maiúsculas, minúsculas...
-    encontrou = True
+      encontrou = True
     if encontrou:
       texto_resposta = "Este país nunca foi invadido pela Inglaterra."
       else:
