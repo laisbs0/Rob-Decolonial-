@@ -7,7 +7,7 @@ import requests
 import telegram
 import pandas as pd
 
-TELEGRAM_API_KEY = os.environ["TELEGRAM_API_KEY
+TELEGRAM_API_KEY = os.environ["TELEGRAM_API_KEY"]
 bot = telegram.Bot(token=os.environ["TELEGRAM_API_KEY"])
 TELEGRAM_ADMIN_ID = os.environ["TELEGRAM_ADMIN_ID"]
 GOOGLE_SHEETS_CREDENTIALS = os.environ["GOOGLE_SHEETS_CREDENTIALS"]
