@@ -151,7 +151,7 @@ def telegram_bot():
     nova_mensagem = {"chat_id": chat_id, "text": texto_resposta}
     requests.post(f"https://api.telegram.org./bot{token}/sendMessage", data=nova_mensagem)
     mensagens.append([datahora, "enviada", username, first_name, chat_id, texto_resposta,])
-
-# Atualiza planilha do sheets com último update processado
-sheet.append_rows(mensagens)
-sheet.update("A1", update_id)
+    
+    # Atualiza planilha do sheets com último update processado
+    sheet.append_rows(mensagens)
+    sheet.update("A1", update_id)
