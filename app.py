@@ -9,7 +9,7 @@ import telegram
 import pandas as pd
 import datetime
 import json
-pip install tchan
+import tchan
 
 TELEGRAM_API_KEY = os.environ["TELEGRAM_API_KEY"]
 bot = telegram.Bot(token=os.environ["TELEGRAM_API_KEY"])
@@ -52,7 +52,7 @@ def telegram_bot():
     chat_id = update["message"]["chat"]["id"]
     message = update["message"]["text"]
 
-    sheetpais.get("A1:Z1000")
+    sheet.get("A1:Z1000")
 
     resposta = requests.get(f"https://api.telegram.org/bot{TELEGRAM_API_KEY}/getMe")
     print(resposta.json())
@@ -74,8 +74,8 @@ def telegram_bot():
     convertido = datetime.datetime.fromtimestamp(valor)
 
     paises = planilha.worksheet("Página1")
-    paises = paises.get_all_records(paises = planilha.worksheet("Página1").get("A1:Z1000"))
-    df = pd.DataFrame(paises)
+    paisesdf = paises.get_all_records(paises = planilha.worksheet("Página1").get("A1:Z1000"))
+    df = pd.DataFrame(paisesdf)
     df
 
     update_id = int(sheet.get("A1")[0][0])
