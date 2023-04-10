@@ -1,3 +1,4 @@
+este código é um robô do telegram que avisa se o país enviado já foi ou não invadido pela inglaterra. A automatização não funciona. Qual é o erro?
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from flask import Flask, request
@@ -18,12 +19,8 @@ with open("credenciais.json", mode="w") as arquivo:
   arquivo.write(GOOGLE_SHEETS_CREDENTIALS)
 conta = ServiceAccountCredentials.from_json_keyfile_name("credenciais.json")
 api = gspread.authorize(conta)
-planilha = api.open_by_key("1ZDyxhXlCtCjMbyKvYmMt_8jAKN5JSoZ7x3MqlnoyzAM")
-sheet = planilha.worksheet("Sheet1")
-api = gspread.authorize(conta)
 planilha = api.open_by_key("11OkESzP3BYZqkuKGJM4sW4YvywJKNeA6lEr9ReQ3b0U")
-sheetpais = planilha.worksheet ("Página1")
-sheet= planilha.worksheet ("chat")
+sheet = planilha.worksheet ("Página1")
 
 app = Flask(__name__)
 
@@ -44,22 +41,9 @@ def sobre():
 def contato():
   return menu + "laisbatistasantana@gmail.com"
                              
-@app.route("/dedoduro")
-def dedoduro():
-  mensagem = {"chat_id": TELEGRAM_ADMIN_ID, "text": "Alguém acessou a página dedo duro!"}
-  resposta = requests.post(f"https://api.telegram.org/bot{TELEGRAM_API_KEY}/sendMessage", data=mensagem)
-  return f"Mensagem enviada. Resposta ({resposta.status_code}): {resposta.text}"
-
-@app.route("/dedoduro2")
-def dedoduro2():
-  sheet.append_row(["olá", "tudo bem?", "a partir do Flask"])
-  return "Planilha escrita!"
-
 @app.route("/webhook", methods=["POST"])
 def webhook():
-    # Atualiza os projetos de lei aprovados
-    projetos = projetos_aprovados()
-    # Atualiza a página inicial com os novos projetos aprovados
+    paises_invadidos = int(sheet.get("A1")[0][0])
     return index()
 
 @app.route("/telegram-bot", methods=["POST"])
@@ -67,16 +51,6 @@ def telegram_bot():
     update = request.json
     chat_id = update["message"]["chat"]["id"]
     message = update["message"]["text"]
-    nova_mensagem = {"chat_id": chat_id, "text": texto_resposta}
-    requests.post(f"https://api.telegram.org./bot{TELEGRAM_API_KEY}/sendMessage", data=nova_mensagem)
-
-    nome_json = "insper-automacao-lais-0029966cc57b.json"
-    conta = ServiceAccountCredentials.from_json_keyfile_name(nome_json)
-
-    GOOGLE_SHEETS_CREDENTIALS = os.environ["GOOGLE_SHEETS_CREDENTIALS"]
-    with open("credenciais.json", mode="w") as arquivo:
-        arquivo.write(GOOGLE_SHEETS_CREDENTIALS)
-
 
     sheetpais.get("A1:Z1000")
 
@@ -95,7 +69,7 @@ def telegram_bot():
 
     updates_processados = []
 
-    valor = 1675722349 # número de segundos desde 00/01/1970 00:00:00
+    valor = datetime.datetime.now().timestamp()
 
     convertido = datetime.datetime.fromtimestamp(valor)
 
