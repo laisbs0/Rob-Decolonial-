@@ -1,4 +1,4 @@
-este código é um robô do telegram que avisa se o país enviado já foi ou não invadido pela inglaterra. A automatização não funciona. Qual é o erro?
+#Este código é um robô do telegram que avisa se o país enviado já foi ou não invadido pela inglaterra. A automatização não funciona. Qual é o erro?
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from flask import Flask, request
