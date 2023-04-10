@@ -25,8 +25,8 @@ menu = """
 
 #Função para criar credenciais do Google Sheets
 async def create_credentials():
-with open("credenciais.json", mode="w") as arquivo:
-    arquivo.write(GOOGLE_SHEETS_CREDENTIALS)
+    with open("credenciais.json", mode="w") as arquivo:
+        arquivo.write(GOOGLE_SHEETS_CREDENTIALS)
 return ServiceAccountCredentials.from_json_keyfile_name("credenciais.json")
 
 #Função para obter os dados de uma planilha
