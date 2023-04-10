@@ -15,7 +15,7 @@ TELEGRAM_ADMIN_ID = os.environ.get("TELEGRAM_ADMIN_ID")
 GOOGLE_SHEETS_CREDENTIALS = os.environ.get("GOOGLE_SHEETS_CREDENTIALS")
 
 #Criação da aplicação Flask
-app = Flask(name)
+app = Flask(__name__)
 
 #Menu para navegação
 menu = """
@@ -27,7 +27,7 @@ menu = """
 async def create_credentials():
     with open("credenciais.json", mode="w") as arquivo:
         arquivo.write(GOOGLE_SHEETS_CREDENTIALS)
-return ServiceAccountCredentials.from_json_keyfile_name("credenciais.json")
+    return ServiceAccountCredentials.from_json_keyfile_name("credenciais.json")
 
 #Função para obter os dados de uma planilha
 async def get_data_from_sheet(sheet):
@@ -80,7 +80,8 @@ def contato():
 def telegram_bot():
     update = request.json
     chat_id = update["message"]["chat"]["id"]
-    message = update["message"]["text"]sheet.get("A1:Z1000")
+    message = update["message"]["text"]
+    sheet.get("A1:Z1000")
 
 resposta = requests.get(f"https://api.telegram.org/bot{TELEGRAM_API_KEY}/getMe")
 print(resposta.json())
