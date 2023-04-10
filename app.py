@@ -1,11 +1,13 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-from flask import Flask
+from flask import Flask, request
 from tchan import ChannelScraper
 import os
 import requests
 import telegram
 import pandas as pd
+import datetime
+import json
 
 TELEGRAM_API_KEY = os.environ["TELEGRAM_API_KEY"]
 bot = telegram.Bot(token=os.environ["TELEGRAM_API_KEY"])
@@ -57,15 +59,20 @@ def dedoduro2():
   sheet.append_row(["olá", "tudo bem?", "a partir do Flask"])
   return "Planilha escrita!"
 
+@app.route("/webhook", methods=["POST"])
+def webhook():
+    # Atualiza os projetos de lei aprovados
+    projetos = projetos_aprovados()
+    # Atualiza a página inicial com os novos projetos aprovados
+    return index()
 
 @app.route("/telegram-bot", methods=["POST"])
 def telegram_bot():
-    import gspread
-    from oauth2client.service_account import ServiceAccountCredentials
-    import os
-    import requests
-    import pandas as pd
-    import datetime
+    update = request.json
+    chat_id = update["message"]["chat"]["id"]
+    message = update["message"]["text"]
+    nova_mensagem = {"chat_id": chat_id, "text": texto_resposta}
+    requests.post(f"https://api.telegram.org./bot{token}/sendMessage", data=nova_mensagem)
 
     nome_json = "insper-automacao-lais-0029966cc57b.json"
     conta = ServiceAccountCredentials.from_json_keyfile_name(nome_json)
