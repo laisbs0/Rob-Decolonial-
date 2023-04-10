@@ -9,8 +9,6 @@ import pandas as pd
 import datetime
 import json
 
-git pull
-
 TELEGRAM_API_KEY = os.environ["TELEGRAM_API_KEY"]
 bot = telegram.Bot(token=os.environ["TELEGRAM_API_KEY"])
 TELEGRAM_ADMIN_ID = os.environ["TELEGRAM_ADMIN_ID"]
