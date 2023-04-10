@@ -2,25 +2,24 @@ este código é um robô do telegram que avisa se o país enviado já foi ou nã
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from flask import Flask, request
-from tchan import ChannelScraper
 import os
 import requests
 import telegram
 import pandas as pd
 import datetime
 import json
-import tchan
 
 TELEGRAM_API_KEY = os.environ["TELEGRAM_API_KEY"]
 bot = telegram.Bot(token=os.environ["TELEGRAM_API_KEY"])
 TELEGRAM_ADMIN_ID = os.environ["TELEGRAM_ADMIN_ID"]
 GOOGLE_SHEETS_CREDENTIALS = os.environ["GOOGLE_SHEETS_CREDENTIALS"]
 with open("credenciais.json", mode="w") as arquivo:
-  arquivo.write(GOOGLE_SHEETS_CREDENTIALS)
+    arquivo.write(GOOGLE_SHEETS_CREDENTIALS)
+
 conta = ServiceAccountCredentials.from_json_keyfile_name("credenciais.json")
 api = gspread.authorize(conta)
 planilha = api.open_by_key("11OkESzP3BYZqkuKGJM4sW4YvywJKNeA6lEr9ReQ3b0U")
-sheet = planilha.worksheet ("Página1")
+sheet = planilha.worksheet("Página1")
 
 app = Flask(__name__)
 
@@ -29,17 +28,20 @@ menu = """
 <br>
 """
 
+
 @app.route("/")
 def index():
-  return menu + "Olá, mundo! Esse é meu site."
+    return menu + "Olá, mundo! Esse é meu site."
+
 
 @app.route("/sobre")
 def sobre():
-  return menu + "Meu nome é Lais e estou aprendendo a programar em Python."
+    return menu + "Meu nome é Lais e estou aprendendo a programar em Python."
+
 
 @app.route("/contato")
 def contato():
-  return menu + "laisbatistasantana@gmail.com"
+    return menu + "laisbatistasantana@gmail.com"
 
 
 @app.route("/telegram-bot", methods=["POST"])
@@ -61,6 +63,7 @@ def telegram_bot():
     updates_processados = []
 
     import json
+
     print(json.dumps(dados, indent=2))
 
     updates_processados = []
@@ -70,16 +73,19 @@ def telegram_bot():
     convertido = datetime.datetime.fromtimestamp(valor)
 
     paises = planilha.worksheet("Página1")
-    paisesdf = paises.get_all_records(paises = planilha.worksheet("Página1").get("A1:Z1000"))
+    paisesdf = paises.get_all_records()
     df = pd.DataFrame(paisesdf)
-    df
 
     update_id = int(sheet.get("A1")[0][0])
+
     # Parâmetros de uma URL - também são chamados de query strings
-    resposta = requests.get(f"https://api.telegram.org/bot{TELEGRAM_API_KEY}/getUpdates?offset={update_id + 1}")
-    dados = resposta.json()["result"]  
+    resposta = requests.get(
+        f"https://api.telegram.org/bot{TELEGRAM_API_KEY}/getUpdates?offset={update_id + 1}"
+    )
+    dados = resposta.json()["result"]
     print(f"Temos {len(dados)} novas atualizações:")
     mensagens = []
+
     for update in dados:
         update_id = update["update_id"]
         # Extrai dados para mostrar mensagem recebida
