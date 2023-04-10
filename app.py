@@ -114,16 +114,20 @@ def telegram_bot():
       paises=df['localidade']
       for pais in paises:
         if pais == message:
-          encontrou = True
-            if encontrou:
-              texto_resposta = "Este país nunca foi invadido pela Inglaterra."
-            else: 
-              texto_resposta = "Este país já foi invadido pela Inglaterra."
+            encontrou = True
+        if encontrou:
+            texto_resposta = "Este país nunca foi invadido pela Inglaterra."
+        else: 
+            texto_resposta = "Este país já foi invadido pela Inglaterra."
       
     nova_mensagem = {"chat_id": chat_id, "text": texto_resposta}
     requests.post(f"https://api.telegram.org/bot{TELEGRAM_API_KEY}/sendMessage", data=nova_mensagem)
     mensagens.append([datahora, "enviada", username, first_name, chat_id, texto_resposta,])
     
+
     # Atualiza planilha do sheets com último update processado
     sheet.append_rows(mensagens)
-    sheet.update("A1", update_id)
+    if dados:
+        update_id = dados[-1]["update_id"]
+        sheet.update("A1", update_id)
+
