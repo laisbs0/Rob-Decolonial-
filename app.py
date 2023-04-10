@@ -9,6 +9,8 @@ import pandas as pd
 import datetime
 import json
 
+git pull
+
 TELEGRAM_API_KEY = os.environ["TELEGRAM_API_KEY"]
 bot = telegram.Bot(token=os.environ["TELEGRAM_API_KEY"])
 TELEGRAM_ADMIN_ID = os.environ["TELEGRAM_ADMIN_ID"]
@@ -26,11 +28,6 @@ sheet= planilha.worksheet ("chat")
 
 app = Flask(__name__)
 
-@app.route("/")
-def hello_world():
-   return "Olá, mundo!"
-
-    
 menu = """
 <a href="/">Página inicial</a> | <a href="/invasoes">INVASÕES</a> | <a href="/sobre">Sobre</a> | <a href="/contato">Contato</a>
 <br>
