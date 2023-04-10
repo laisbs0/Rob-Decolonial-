@@ -8,6 +8,7 @@ import telegram
 import pandas as pd
 import datetime
 import json
+pip install tchan
 
 TELEGRAM_API_KEY = os.environ["TELEGRAM_API_KEY"]
 bot = telegram.Bot(token=os.environ["TELEGRAM_API_KEY"])
@@ -75,12 +76,7 @@ def telegram_bot():
     GOOGLE_SHEETS_CREDENTIALS = os.environ["GOOGLE_SHEETS_CREDENTIALS"]
     with open("credenciais.json", mode="w") as arquivo:
         arquivo.write(GOOGLE_SHEETS_CREDENTIALS)
-    conta = ServiceAccountCredentials.from_json_keyfile_name("credenciais.json")
 
-    api = gspread.authorize(conta)
-    planilha = api.open_by_key("11OkESzP3BYZqkuKGJM4sW4YvywJKNeA6lEr9ReQ3b0U")
-    sheetpais = planilha.worksheet ("Página1")
-    sheet= planilha.worksheet ("chat")
 
     sheetpais.get("A1:Z1000")
 
@@ -104,7 +100,7 @@ def telegram_bot():
     convertido = datetime.datetime.fromtimestamp(valor)
 
     paises = planilha.worksheet("Página1")
-    paises = paises.get_all_records()
+    paises = paises.get_all_records(paises = planilha.worksheet("Página1").get("A1:Z1000"))
     df = pd.DataFrame(paises)
     df
 
@@ -149,7 +145,7 @@ def telegram_bot():
       texto_resposta = "Este país já foi invadido pela Inglaterra."
       
     nova_mensagem = {"chat_id": chat_id, "text": texto_resposta}
-    requests.post(f"https://api.telegram.org./bot{TELEGRAM_API_KEY}/sendMessage", data=nova_mensagem)
+    requests.post(f"https://api.telegram.org/bot{TELEGRAM_API_KEY}/sendMessage", data=nova_mensagem)
     mensagens.append([datahora, "enviada", username, first_name, chat_id, texto_resposta,])
     
     # Atualiza planilha do sheets com último update processado
