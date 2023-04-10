@@ -72,7 +72,7 @@ def telegram_bot():
     chat_id = update["message"]["chat"]["id"]
     message = update["message"]["text"]
     nova_mensagem = {"chat_id": chat_id, "text": texto_resposta}
-    requests.post(f"https://api.telegram.org./bot{token}/sendMessage", data=nova_mensagem)
+    requests.post(f"https://api.telegram.org./bot{TELEGRAM_API_KEY}/sendMessage", data=nova_mensagem)
 
     nome_json = "insper-automacao-lais-0029966cc57b.json"
     conta = ServiceAccountCredentials.from_json_keyfile_name(nome_json)
@@ -82,8 +82,6 @@ def telegram_bot():
         arquivo.write(GOOGLE_SHEETS_CREDENTIALS)
     conta = ServiceAccountCredentials.from_json_keyfile_name("credenciais.json")
 
-    token = os.environ.get('TELEGRAM_TOKEN_BOT')
-
     api = gspread.authorize(conta)
     planilha = api.open_by_key("11OkESzP3BYZqkuKGJM4sW4YvywJKNeA6lEr9ReQ3b0U")
     sheetpais = planilha.worksheet ("Página1")
@@ -91,10 +89,10 @@ def telegram_bot():
 
     sheetpais.get("A1:Z1000")
 
-    resposta = requests.get(f"https://api.telegram.org/bot{token}/getMe")
+    resposta = requests.get(f"https://api.telegram.org/bot{TELEGRAM_API_KEY}/getMe")
     print(resposta.json())
 
-    resposta = requests.get(f"https://api.telegram.org/bot{token}/getUpdates")
+    resposta = requests.get(f"https://api.telegram.org/bot{TELEGRAM_API_KEY}/getUpdates")
     dados = resposta.json()["result"]
     print(f"Temos {len(dados)} novas atualizações:")
     print(dados)
@@ -117,7 +115,7 @@ def telegram_bot():
 
     update_id = int(sheet.get("A1")[0][0])
     # Parâmetros de uma URL - também são chamados de query strings
-    resposta = requests.get(f"https://api.telegram.org/bot{token}/getUpdates?offset={update_id + 1}")
+    resposta = requests.get(f"https://api.telegram.org/bot{TELEGRAM_API_KEY}/getUpdates?offset={update_id + 1}")
     dados = resposta.json()["result"]  
     print(f"Temos {len(dados)} novas atualizações:")
     mensagens = []
@@ -156,7 +154,7 @@ def telegram_bot():
       texto_resposta = "Este país já foi invadido pela Inglaterra."
       
     nova_mensagem = {"chat_id": chat_id, "text": texto_resposta}
-    requests.post(f"https://api.telegram.org./bot{token}/sendMessage", data=nova_mensagem)
+    requests.post(f"https://api.telegram.org./bot{TELEGRAM_API_KEY}/sendMessage", data=nova_mensagem)
     mensagens.append([datahora, "enviada", username, first_name, chat_id, texto_resposta,])
     
     # Atualiza planilha do sheets com último update processado
