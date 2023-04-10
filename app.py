@@ -26,54 +26,54 @@ menu = """
 #Função para criar credenciais do Google Sheets
 async def create_credentials():
 with open("credenciais.json", mode="w") as arquivo:
-arquivo.write(GOOGLE_SHEETS_CREDENTIALS)
+    arquivo.write(GOOGLE_SHEETS_CREDENTIALS)
 return ServiceAccountCredentials.from_json_keyfile_name("credenciais.json")
 
 #Função para obter os dados de uma planilha
 async def get_data_from_sheet(sheet):
-return sheet.get("A1:Z1000")
+    return sheet.get("A1:Z1000")
 
 #Função para obter as credenciais do bot do Telegram
 async def get_telegram_credentials():
-return telegram.Bot(token=TELEGRAM_API_KEY)
+    return telegram.Bot(token=TELEGRAM_API_KEY)
 
 #Função para obter um DataFrame do Pandas com os dados dos países
 async def get_paises_dataframe(sheet):
-paises = sheet.worksheet("Página1")
-paises_data = await get_data_from_sheet(paises)
-return pd.DataFrame(paises_data[1:], columns=paises_data[0])
+    paises = sheet.worksheet("Página1")
+    paises_data = await get_data_from_sheet(paises)
+    return pd.DataFrame(paises_data[1:], columns=paises_data[0])
 
 #Função para inicializar as credenciais do Google Sheets, o bot do Telegram e o DataFrame dos países
 async def initialize():
-credentials = await create_credentials()
-api = gspread.authorize(credentials)
-planilha = api.open_by_key("11OkESzP3BYZqkuKGJM4sW4YvywJKNeA6lEr9ReQ3b0U")
-sheet = planilha.worksheet("Página1")
-bot = await get_telegram_credentials()
-paises = await get_paises_dataframe(sheet)
-return api, sheet, bot, paises
+    credentials = await create_credentials()
+    api = gspread.authorize(credentials)
+    planilha = api.open_by_key("11OkESzP3BYZqkuKGJM4sW4YvywJKNeA6lEr9ReQ3b0U")
+    sheet = planilha.worksheet("Página1")
+    bot = await get_telegram_credentials()
+    paises = await get_paises_dataframe(sheet)
+    return api, sheet, bot, paises
 
 #Função para obter as atualizações do bot do Telegram
 async def get_updates(update_id):
-resposta = requests.get(
-f"https://api.telegram.org/bot{TELEGRAM_API_KEY}/getUpdates?offset={update_id + 1}"
-)
-return resposta.json()["result"]
+    resposta = requests.get(
+    f"https://api.telegram.org/bot{TELEGRAM_API_KEY}/getUpdates?offset={update_id + 1}"
+    )
+    return resposta.json()["result"]
 
 #Página inicial da aplicação
 @app.route("/")
 def index():
-return menu + "Olá mundo! Esse é meu site."
+    return menu + "Olá mundo! Esse é meu site."
 
 #Página sobre
 @app.route("/sobre")
 def sobre():
-return menu + "Meu nome é Lais e estou aprendendo a programar em Python."
+    return menu + "Meu nome é Lais e estou aprendendo a programar em Python."
 
 #Página de contato
 @app.route("/contato")
 def contato():
-return menu + "laisbatistasantana@gmail.com"
+    return menu + "laisbatistasantana@gmail.com"
 
 #Rota para receber as atualizações do bot do Telegram
 @app.route("/telegram-bot", methods=["POST"])
