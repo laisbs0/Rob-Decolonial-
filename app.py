@@ -40,11 +40,7 @@ def sobre():
 @app.route("/contato")
 def contato():
   return menu + "laisbatistasantana@gmail.com"
-                             
-@app.route("/webhook", methods=["POST"])
-def webhook():
-    paises_invadidos = int(sheet.get("A1")[0][0])
-    return index()
+
 
 @app.route("/telegram-bot", methods=["POST"])
 def telegram_bot():
@@ -109,14 +105,14 @@ def telegram_bot():
     
     elif message != " ":
       encontrou = False
-    paises=df['localidade']
-    for pais in paises:
-      if pais == message:
-        encontrou = True
-    if encontrou:
-      texto_resposta = "Este país nunca foi invadido pela Inglaterra."
-    else: 
-      texto_resposta = "Este país já foi invadido pela Inglaterra."
+      paises=df['localidade']
+      for pais in paises:
+        if pais == message:
+          encontrou = True
+            if encontrou:
+              texto_resposta = "Este país nunca foi invadido pela Inglaterra."
+            else: 
+              texto_resposta = "Este país já foi invadido pela Inglaterra."
       
     nova_mensagem = {"chat_id": chat_id, "text": texto_resposta}
     requests.post(f"https://api.telegram.org/bot{TELEGRAM_API_KEY}/sendMessage", data=nova_mensagem)
