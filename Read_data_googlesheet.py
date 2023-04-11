@@ -1,6 +1,6 @@
 #importing libraries
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+import google.auth
 import tkinter as tk
 from tkinter import *
 
