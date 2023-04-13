@@ -54,15 +54,18 @@ def telegram_bot():
   if message == "/start":
     reply = "Bem-vindo(a)! Aqui te ajudo a descobrir quais países foram e não foram invadidos pela Inglaterra. Qual você quer saber?"
     message = update["message"]["text"]
+    requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data=nova_mensagem)
 
   while jorge: 
     if message in paises_nao_invadidos:
       reply = "O país " + message + " nunca foi invadido pela Inglaterra."
+      message = update["message"]["text"]
+      requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data=nova_mensagem)
     else:
       reply = "Isso aí já foi invadido pela Inglaterra. Haha. (☞ﾟヮﾟ)☞ ☜(ﾟヮﾟ☜)"
-
-    nova_mensagem = {"chat_id": chat_id, "text": reply}
-    requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data=nova_mensagem)
+      message = update["message"]["text"]
+      requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data=nova_mensagem)
+      
     time.sleep(10)
 
     pergunta2 = "Pergunte sobre outro país"
