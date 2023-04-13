@@ -62,13 +62,11 @@ def telegram_bot():
       reply = "O país " + message + " nunca foi invadido pela Inglaterra."
       nova_mensagem = {"chat_id": chat_id, "text": reply}
       requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data=nova_mensagem)
-      message = update["message"]["text"]
      
     else:
       reply = "Isso aí já foi invadido pela Inglaterra. Haha. (☞ﾟヮﾟ)☞ ☜(ﾟヮﾟ☜)"
       nova_mensagem = {"chat_id": chat_id, "text": reply}
       requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data=nova_mensagem)
-      message = update["message"]["text"]
       
     time.sleep(10)
 
