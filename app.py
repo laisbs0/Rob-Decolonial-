@@ -56,30 +56,30 @@ def telegram_bot():
   if message == "/start":
     reply = "Bem-vindo(a)! Aqui te ajudo a descobrir quais países foram e não foram invadidos pela Inglaterra. Qual você quer saber?"
     message = update["message"]["text"]
-    
+
   while jorge: 
-        if message in paises_nao_invadidos:
-          reply = "O país " + message + " nunca foi invadido pela Inglaterra."
-        else:
-          reply = "Isso aí já foi invadido pela Inglaterra. Haha. (☞ﾟヮﾟ)☞ ☜(ﾟヮﾟ☜)"
+    if message in paises_nao_invadidos:
+      reply = "O país " + message + " nunca foi invadido pela Inglaterra."
+    else:
+      reply = "Isso aí já foi invadido pela Inglaterra. Haha. (☞ﾟヮﾟ)☞ ☜(ﾟヮﾟ☜)"
 
-        nova_mensagem = {"chat_id": chat_id, "text": reply}
-        requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data=nova_mensagem)
-        time.sleep(10)
-        
-        pergunta2 = "Pergunte sobre outro país"
-        requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data=pergunta2)
-        time.sleep(10)
-        message = update["message"]["text"]
+    nova_mensagem = {"chat_id": chat_id, "text": reply}
+    requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data=nova_mensagem)
+    time.sleep(10)
 
-        if message == " ":
-          jorge = False
-      
-      mensagens.append([datahora, "enviada", username, first_name, chat_id, texto_resposta,])
-      log.append_rows(mensagens)
-      log.update("A1", update_id)
+    pergunta2 = "Pergunte sobre outro país"
+    requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data=pergunta2)
+    time.sleep(10)
+    message = update["message"]["text"]
 
-  
+    if message == " ":
+      jorge = False
+
+  mensagens.append([datahora, "enviada", username, first_name, chat_id, texto_resposta,])
+  log.append_rows(mensagens)
+  log.update("A1", update_id)
+
+
 #Página do mapinha
 @app.route("/mapa")
 def mapa():
