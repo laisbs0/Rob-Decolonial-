@@ -3,9 +3,8 @@ gunicorn
 requests
 gspread
 oauth2client
-pandas
 os
-time
+pandas
 altair
 openpyxl
 xlrd
