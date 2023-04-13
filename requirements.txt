@@ -3,9 +3,4 @@ gunicorn
 requests
 gspread
 oauth2client
-os
 pandas
-altair
-openpyxl
-xlrd
-python-telegram-bot
