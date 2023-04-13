@@ -27,6 +27,11 @@ log = planilha.worksheet("chat")
 
 app = Flask(__name__)
 
+menu = """
+<a href="/">Página inicial</a> | <a href="/sobre">Sobre</a> | <a href="/contato">Contato</a> | <a href="/mapa">Mapa das Invasões</a>
+<br>
+"""
+
 #Página inicial da aplicação
 @app.route("/")
 def index():
@@ -52,32 +57,32 @@ def telegram_bot():
 
   if message == "/start":
     reply = "Bem-vindo(a)! Aqui te ajudo a descobrir quais países foram e não foram invadidos pela Inglaterra. Qual você quer saber?"
+    jorge = True
+       
+      while jorge: 
+        
+        if message in paises_nao_invadidos:
+          reply = "O país " + message + " nunca foi invadido pela Inglaterra."
+        else:
+          reply = "Isso aí já foi invadido pela Inglaterra. Haha. (☞ﾟヮﾟ)☞ ☜(ﾟヮﾟ☜)"
 
-  elif message in paises_nao_invadidos:
-    reply = "O país " + message + " nunca foi invadido pela Inglaterra."
+        nova_mensagem = {"chat_id": chat_id, "text": reply}
+        requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data=nova_mensagem)
 
-  else:
-    reply = "Isso aí já foi invadido pela Inglaterra. Haha. (☞ﾟヮﾟ)☞ ☜(ﾟヮﾟ☜)"
-  
-  nova_mensagem = {"chat_id": chat_id, "text": reply}
-  requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data=nova_mensagem)
-  time.sleep(10)
-  requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data="Você gostaria de perguntar sobre outro país? Digite 'Sim' ou 'Não'")
-    if message == "Sim"
-      reply = "Qual você quer saber?"
+        requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data="Pergunte sobre outro país")
+
+        time.sleep(10)
+
+        if message == " ":
+
+          jorge = False
       
-      while True:
-      if message in paises_nao_invadidos:
-        reply = "O país " + message + " nunca foi invadido pela Inglaterra."
-      else:
-        reply = "Isso aí já foi invadido pela Inglaterra. Haha. (☞ﾟヮﾟ)☞ ☜(ﾟヮﾟ☜)"
-      
-      elif message == "Não"
-        reply = "Tudo bem! Obrigada, e volte sempre :D"
-     
-       break
+      mensagens.append([datahora, "enviada", username, first_name, chat_id, texto_resposta,])
+      log.append_rows(mensagens)
+      log.update("A1", update_id)
 
   
-  mensagens.append([datahora, "enviada", username, first_name, chat_id, texto_resposta,])
-  log.append_rows(mensagens)
-  log.update("A1", update_id)
+#Página do mapinha
+@app.route("/mapa")
+def mapa():
+  return menu + 
