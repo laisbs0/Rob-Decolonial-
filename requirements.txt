@@ -1,12 +1,12 @@
 flask
 gunicorn
-tchan
 requests
 gspread
 oauth2client
-pandas 
+pandas
+os
+time
 altair
 openpyxl
 xlrd
 python-telegram-bot
-time
