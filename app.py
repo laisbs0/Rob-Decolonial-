@@ -1,7 +1,4 @@
 # Importando as bibliotecas
-!pip install gspread oauth2client
-!pip install telegram
-
 import gspread
 import pandas as pd 
 from telegram import __version__ as TG_VER
