@@ -1,9 +1,7 @@
 # Importando as bibliotecas
 import gspread
 import pandas as pd 
-from telegram import __version__ as TG_VER
-from telegram import ForceReply, Update
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
+import telegram
 import os
 from flask import Flask, request, render_template
 from oauth2client.service_account import ServiceAccountCredentials
