@@ -93,7 +93,7 @@ def telegram_bot():
     update = request.json
     chat_id = update["message"]["chat"]["id"]
     message = update["message"]["text"]
-    paises_nao_invadidos = [registro["País"] for registro in sheet.get_all_records()]
+    paises_nao_invadidos = sheets.col_values(1)
 
     if message == "/start":
         replies = ["Bem-vindo(a)! Aqui te ajudo a descobrir quais países foram e não foram invadidos pela Inglaterra. Qual você quer saber?"]
@@ -105,14 +105,10 @@ def telegram_bot():
     if message != "/start":
         replies.append("Pergunte sobre outro país")
 
-    #for reply in replies:
-        #nova_mensagem = {"chat_id": chat_id, "text": reply}
-        #requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data=nova_mensagem)
+    for reply in replies:
+      nova_mensagem = {"chat_id": chat_id, "text": reply}
+      requests.post(f"https://api.telegram.org./bot{TELEGRAM_TOKEN_BOT}/sendMessage", data=nova_mensagem)
         
-    nova_mensagem = {"chat_id": chat_id, "text": reply}
-    requests.post(f"https://api.telegram.org./bot{TELEGRAM_API_KEY}/sendMessage", data=nova_mensagem)
-    # mensagens.append([datahora, "enviada", first_name, chat_id, texto_resposta])
-
 #Página do mapinha que vou criar
 @app.route("/mapa")
 def mapa():
