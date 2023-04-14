@@ -56,7 +56,7 @@ def telegram_bot():
   else:
     replies = ["Isso aí já foi invadido pela Inglaterra. Haha. (☞ﾟヮﾟ)☞ ☜(ﾟヮﾟ☜)"]
 
-  if message != "/start"
+  if message != "/start":
     replies.append("Pergunte sobre outro país")
       
   for reply in replies: 
